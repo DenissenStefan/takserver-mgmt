@@ -16,7 +16,7 @@ IP=`echo $IP | sed -e 's/^[[:space:]]*//'`
 # This outputs the CoreConfig node:
 CaPass=$(xmllint --xpath "//*[local-name()='Configuration']/*[local-name()='security']/*[local-name()='tls']/@keystorePass" $XML_FILE)
 ClientPass=$(xmllint --xpath "//*[local-name()='Configuration']/*[local-name()='security']/*[local-name()='tls']/@truststorePass" $XML_FILE)
-intermediateCert=$(xmllint --xpath "//*[local-name()='Configuration']/*[local-name()='certificateSigning']/*[local-name()='TAKServerCAConfig']/@keystoreFile" $XML_FILE)
+intermediateCert=$(xmllint --xpath "//*[local-name()='Configuration']/*[local-name()='security']/*[local-name()='tls']/@truststoreFile" $XML_FILE)
 ServerCert=$(xmllint --xpath "//*[local-name()='Configuration']/*[local-name()='security']/*[local-name()='tls']/@keystoreFile" $XML_FILE)
 
 # This extracts the entry from the CoreConfig node:
