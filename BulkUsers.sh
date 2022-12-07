@@ -10,13 +10,18 @@ XML_FILE="/opt/tak/CoreConfig.xml"
 IP=`hostname -I`
 HostName=$HOSTNAME
 
+if [ $HostName == "localhost.localhost" ]; then
+	echo "Hostname not set, please set hostname followed by a reboot of the server."
+	exit 1
+fi
+
 #This is to remove the trailing space after the variable
 IP=`echo $IP | sed -e 's/^[[:space:]]*//'`
 
 # This outputs the CoreConfig node:
 CaPass=$(xmllint --xpath "//*[local-name()='Configuration']/*[local-name()='security']/*[local-name()='tls']/@keystorePass" $XML_FILE)
 ClientPass=$(xmllint --xpath "//*[local-name()='Configuration']/*[local-name()='security']/*[local-name()='tls']/@truststorePass" $XML_FILE)
-intermediateCert=$(xmllint --xpath "//*[local-name()='Configuration']/*[local-name()='security']/*[local-name()='tls']/@truststoreFile" $XML_FILE)
+intermediateCert=$(xmllint --xpath "//*[local-name()='Configuration']/*[local-name()='certificateSigning']/*[local-name()='TAKServerCAConfig']/@keystoreFile" $XML_FILE)
 ServerCert=$(xmllint --xpath "//*[local-name()='Configuration']/*[local-name()='security']/*[local-name()='tls']/@keystoreFile" $XML_FILE)
 
 # This extracts the entry from the CoreConfig node:
@@ -32,15 +37,13 @@ if
 then
 
 	TrustStoreCert=$ServerCert
-
+	TrustStoreCert=$(echo $TrustStoreCert | cut -c13- | rev | cut -c5- | rev)
 else
 
 	TrustStoreCert=$intermediateCert
-
+	TrustStoreCert=$(echo $TrustStoreCert | cut -c13- | rev | cut -c13- | rev)
+	TrustStoreCert="truststore-$TrustStoreCert"
 fi
-
-# This removes the file extension and the path from the string:
-TrustStoreCert=$(echo $TrustStoreCert | cut -c13- | rev | cut -c5- | rev)
 
 ######################################################################
 
