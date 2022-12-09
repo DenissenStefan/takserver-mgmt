@@ -157,3 +157,5 @@ done < <(tail -n +2 users.csv)
 # Cleanup of server.pref & manifest.xml
 rm "/opt/tak/certs/manifest.xml"
 rm "/opt/tak/certs/server.pref"
+
+./ManagementConsole.sh
