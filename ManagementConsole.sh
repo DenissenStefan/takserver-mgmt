@@ -5,7 +5,7 @@
 HEIGHT=15
 WIDTH=40
 CHOICE_HEIGHT=4
-BACKTITLE="TAK Server Management Console by S.W. Denissen (github.com/denissenstefan)"
+BACKTITLE="TAK Server Management Console created by S.W. Denissen (github.com/denissenstefan)"
 TITLE="TAK Server Management Console"
 MENU="Choose one of the following options:"
 
@@ -22,6 +22,7 @@ CHOICE=$(dialog --clear \
                 2>&1 >/dev/tty)
 
 clear
+
 case $CHOICE in
         1)
             echo "Bulk creation of users:"
