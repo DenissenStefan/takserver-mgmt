@@ -3,7 +3,7 @@
 This script is meant to create data packages on the TAKserver for initial configuration of connected devices.
 
 # Usage
-Copy the script to the `/opt/tak/certs` folder on the takserver (ensure you have execute permissions on the script). Edit the `users.csv` per example with at the end a blank line.
+Copy the scripts to the `/opt/tak/certs` folder on the takserver (ensure you have execute permissions on the script). Edit the `users.csv` per example with at the end a blank line.
 Run the script by entering `.\BulkUsers.sh` in the terminal.
 
 # Changelog:
@@ -19,6 +19,7 @@ Run the script by entering `.\BulkUsers.sh` in the terminal.
 | 08-11-2022 | Changed the user-certificate and datapackage folder locations. |
 | 13-11-2022 | Added XML parsing from the CoreConfig file. |
 | 14-11-2022 | Added CSV parsing from users.csv |
+| 09-12-2022 | Added a script to set the connection name or IP address to be used in the creation of data packages. |
 
 # Future features
 - Add TAKchat plugin to data package

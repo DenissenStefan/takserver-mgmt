@@ -7,7 +7,7 @@
 XML_FILE="/opt/tak/CoreConfig.xml"
 
 # Variables below are automatically pulled from the config:
-IP=`hostname -I`
+IP=$(<"/opt/tak/certs/ConnectionName.txt")
 HostName=$HOSTNAME
 
 if [ $HostName == "localhost.localhost" ]; then
@@ -64,7 +64,7 @@ do
 		
 		# User Certificates
 		echo "Creating certificate for $Username"
-		./makeCert.sh client $Username
+		/opt/tak/certs/makeCert.sh client $Username
 
 		# Without this wait functions certificate generation won't finish and the certificates won't be usable.
 		wait
@@ -98,40 +98,40 @@ do
 
 		echo "Creating server.pref file for $Username"
 
-		echo "<?xml version='1.0' encoding='ASCII' standalone='yes'?>" > server.pref
-		echo "<preferences>" >> server.pref
-		echo "  <preference version=\"1\" name=\"cot_streams\">" >> server.pref
-		echo "    <entry key=\"count\" class=\"class java.lang.Integer\">1</entry>" >> server.pref
-		echo "    <entry key=\"description0\" class=\"class java.lang.String\">$HostName</entry>" >> server.pref
-		echo "    <entry key=\"enabled0\" class=\"class java.lang.Boolean\">true</entry>" >> server.pref
-		echo "    <entry key=\"connectString0\" class=\"class java.lang.String\">$IP:8089:ssl</entry>" >> server.pref
-		echo "  </preference>" >> server.pref
-		echo "  <preference version=\"1\" name=\"com.atakmap.app_preferences\">" >> server.pref
-		echo "    <entry key=\"displayServerConnectionWidget\" class=\"class java.lang.Boolean\">true</entry>" >> server.pref
-		echo "    <entry key=\"caLocation\" class=\"class java.lang.String\">$TrustStoreCert.p12</entry>" >> server.pref
-		echo "    <entry key=\"caPassword\" class=\"class java.lang.String\">$CaPass</entry>" >> server.pref
-		echo "    <entry key=\"clientPassword\" class=\"class java.lang.String\">$ClientPass</entry>" >> server.pref
-		echo "    <entry key=\"certificateLocation\" class=\"class java.lang.String\">$Username.p12</entry>" >> server.pref
-		echo "  </preference>" >> server.pref
-		echo "</preferences>" >> server.pref
+		echo "<?xml version='1.0' encoding='ASCII' standalone='yes'?>" > /opt/tak/certs/server.pref
+		echo "<preferences>" >> /opt/tak/certs/server.pref
+		echo "  <preference version=\"1\" name=\"cot_streams\">" >> /opt/tak/certs/server.pref
+		echo "    <entry key=\"count\" class=\"class java.lang.Integer\">1</entry>" >> /opt/tak/certs/server.pref
+		echo "    <entry key=\"description0\" class=\"class java.lang.String\">$HostName</entry>" >> /opt/tak/certs/server.pref
+		echo "    <entry key=\"enabled0\" class=\"class java.lang.Boolean\">true</entry>" >> /opt/tak/certs/server.pref
+		echo "    <entry key=\"connectString0\" class=\"class java.lang.String\">$IP:8089:ssl</entry>" >> /opt/tak/certs/server.pref
+		echo "  </preference>" >> /opt/tak/certs/server.pref
+		echo "  <preference version=\"1\" name=\"com.atakmap.app_preferences\">" >> /opt/tak/certs/server.pref
+		echo "    <entry key=\"displayServerConnectionWidget\" class=\"class java.lang.Boolean\">true</entry>" >> /opt/tak/certs/server.pref
+		echo "    <entry key=\"caLocation\" class=\"class java.lang.String\">$TrustStoreCert.p12</entry>" >> /opt/tak/certs/server.pref
+		echo "    <entry key=\"caPassword\" class=\"class java.lang.String\">$CaPass</entry>" >> /opt/tak/certs/server.pref
+		echo "    <entry key=\"clientPassword\" class=\"class java.lang.String\">$ClientPass</entry>" >> /opt/tak/certs/server.pref
+		echo "    <entry key=\"certificateLocation\" class=\"class java.lang.String\">$Username.p12</entry>" >> /opt/tak/certs/server.pref
+		echo "  </preference>" >> /opt/tak/certs/server.pref
+		echo "</preferences>" >> /opt/tak/certs/server.pref
 
 
 		# manifest.xml
 
 		echo "Creating manifest.xml file for $Username"
 
-		echo "<MissionPackageManifest version=\"2\">" > manifest.xml
-		echo "  <Configuration>" >> manifest.xml
-		echo "    <Parameter name=\"uid\" value=\"af6f9606-4e37-4d85-b14e-3d0a99705a9d\"/>" >> manifest.xml
-		echo "    <Parameter name=\"name\" value=\"$HostName\"/>" >> manifest.xml
-		echo "    <Parameter name=\"onReceiveDelete\" value=\"false\"/>" >> manifest.xml
-		echo "  </Configuration>" >> manifest.xml
-		echo "  <Contents>" >> manifest.xml
-		echo "    <Content zipEntry=\"server.pref\" ignore=\"false\" />" >> manifest.xml
-		echo "    <Content zipEntry=\"$TrustStoreCert.p12\" ignore=\"false\" />" >> manifest.xml
-		echo "    <Content zipEntry=\"$Username.p12\" ignore=\"false\" />" >> manifest.xml
-		echo "  </Contents>" >> manifest.xml
-		echo "</MissionPackageManifest>" >> manifest.xml
+		echo "<MissionPackageManifest version=\"2\">" > /opt/tak/certs/manifest.xml
+		echo "  <Configuration>" >> /opt/tak/certs/manifest.xml
+		echo "    <Parameter name=\"uid\" value=\"af6f9606-4e37-4d85-b14e-3d0a99705a9d\"/>" >> /opt/tak/certs/manifest.xml
+		echo "    <Parameter name=\"name\" value=\"$HostName\"/>" >> /opt/tak/certs/manifest.xml
+		echo "    <Parameter name=\"onReceiveDelete\" value=\"false\"/>" >> /opt/tak/certs/manifest.xml
+		echo "  </Configuration>" >> /opt/tak/certs/manifest.xml
+		echo "  <Contents>" >> /opt/tak/certs/manifest.xml
+		echo "    <Content zipEntry=\"server.pref\" ignore=\"false\" />" >> /opt/tak/certs/manifest.xml
+		echo "    <Content zipEntry=\"$TrustStoreCert.p12\" ignore=\"false\" />" >> /opt/tak/certs/manifest.xml
+		echo "    <Content zipEntry=\"$Username.p12\" ignore=\"false\" />" >> /opt/tak/certs/manifest.xml
+		echo "  </Contents>" >> /opt/tak/certs/manifest.xml
+		echo "</MissionPackageManifest>" >> /opt/tak/certs/manifest.xml
 
 		echo "zipping files for $Username"
 
@@ -144,7 +144,7 @@ do
 		mkdir -p "/opt/takdata/user-certificates/$Username"
 
 		# This will move all files for the user to the user-certificates folder created above
-		find . -name "$Username*.*" -exec mv '{}' "/opt/takdata/user-certificates/$Username/" \;
+		find /opt/tak/certs/. -name "$Username*.*" -exec mv '{}' "/opt/takdata/user-certificates/$Username/" \;
 
 		echo "-------------------------------------------------------------"
 		echo "Created certificate data package for $Username @ $HostName as takdata/data-packages/dp-$Username-$HostName.zip"
@@ -157,3 +157,5 @@ done < <(tail -n +2 users.csv)
 # Cleanup of server.pref & manifest.xml
 rm "/opt/tak/certs/manifest.xml"
 rm "/opt/tak/certs/server.pref"
+
+./ManagementConsole.sh
