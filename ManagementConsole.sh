@@ -23,21 +23,3 @@ CHOICE=$(dialog --clear \
                 2>&1 >/dev/tty)
 
 clear
-
-case $CHOICE in
-        1)
-            echo "Set connection name or IP address"
-            source ./ConnectionName.sh
-            ;;
-        2)
-            echo "Bulk creation of users:"
-            source ./BulkUsers.sh
-            ;;
-        3)
-            echo "Create datapackage for certificate enrollment"
-            source ./CertificateEnrollment.sh
-            ;;
-        4)
-            echo "Quitting the TAK Server Management Console"
-            ;;
-esac
