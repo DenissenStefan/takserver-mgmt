@@ -5,13 +5,14 @@
 HEIGHT=15
 WIDTH=40
 CHOICE_HEIGHT=4
-BACKTITLE="TAK Server Management Console created by S.W. Denissen (github.com/denissenstefan)"
+BACKTITLE="TAK Server Management Console created by S.W. Denissen (github.com/DenissenStefan)"
 TITLE="TAK Server Management Console"
 MENU="Choose one of the following options:"
 
 OPTIONS=(1 "Set connection name or IP address"
          2 "Create users in bulk"
-         3 "Quit Management Console")
+         3 "Create datapackage for certificate enrollment"
+         4 "Quit Management Console")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -33,7 +34,10 @@ case $CHOICE in
             source ./BulkUsers.sh
             ;;
         3)
+            echo "Create datapackage for certificate enrollment"
+            source ./CertificateEnrollment.sh
+            ;;
+        4)
             echo "Quitting the TAK Server Management Console"
-            break
             ;;
 esac
