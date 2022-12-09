@@ -9,8 +9,8 @@ BACKTITLE="TAK Server Management Console created by S.W. Denissen (github.com/de
 TITLE="TAK Server Management Console"
 MENU="Choose one of the following options:"
 
-OPTIONS=(1 "Create users in bulk"
-         2 "Option 2"
+OPTIONS=(1 "Set connection name or IP address"
+         2 "Create users in bulk"
          3 "Quit Management Console")
 
 CHOICE=$(dialog --clear \
@@ -25,11 +25,12 @@ clear
 
 case $CHOICE in
         1)
-            echo "Bulk creation of users:"
-            source ./BulkUsers.sh
+            echo "Set connection name or IP address"
+            source ./ConnectionName.sh
             ;;
         2)
-            echo "You chose Option 2"
+            echo "Bulk creation of users:"
+            source ./BulkUsers.sh
             ;;
         3)
             echo "Quitting the TAK Server Management Console"

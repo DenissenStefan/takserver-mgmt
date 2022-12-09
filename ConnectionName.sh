@@ -1,9 +1,12 @@
-#!/bin/sh
+#!/bin/bash
+# Created by: Stefan
+# Created on: 09-12-2022
+
 DIALOG=${DIALOG=dialog}
 ConnectionName="/opt/tak/certs/ConnectionName.txt"
 
-$DIALOG --backtitle "TAK Server Management Console created by S.W. Denissen (github.com/DenissenStefan)" \
-        --title "TAK Server Management Console" --clear \
+$DIALOG --backtitle "$BACKTITLE" \
+        --title "$TITLE - Connection name" --clear \
         --inputbox "Please enter the IP or DNS name you want to use to connect to your TAK Server:" 16 51 2> $ConnectionName
 
 retval=$?
@@ -23,3 +26,7 @@ case $retval in
     fi
     ;;
 esac
+
+clear
+
+./ManagementConsole.sh
